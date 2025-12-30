@@ -8,26 +8,21 @@ function AddUser() {
   const router = useRouter();
 
   const [name, setName] = useState('');
-  const [id, setId] = useState('');
-  const [age, setAge] = useState('');
-
-  const URL = 'https://6940e3ad993d68afba6d6d36.mockapi.io/Users';
+  const [password, setPassword] = useState('');
 
   async function handleSubmit(e: any) {
     e.preventDefault();
 
-    await fetch(URL, {
-      method: 'POST',
+    const res = await fetch('/api/users', {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        name,
-        id,
-        age,
-      }),
-    });
-    router.push('/user');
+        username: name,
+        password,
+      })
+    })
   }
 
   return (
@@ -45,18 +40,9 @@ function AddUser() {
 
         <input
           className="form-control mb-2"
-          placeholder="Email"
-          value={id}
-          onChange={e => setId(e.target.value)}
-          required
-        />
-
-        <input
-          type="number"
-          className="form-control mb-2"
-          placeholder="Age"
-          value={age}
-          onChange={e => setAge(e.target.value)}
+          placeholder="password"
+          value={password}
+          onChange={e => setPassword(e.target.value)}
           required
         />
 

@@ -14,6 +14,8 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@prisma/adapter-pg": "^7.2.0",
+    "@prisma/client": "^7.2.0",
     "@tailwindplus/elements": "^1.0.19",
     "bootstrap": "^5.3.8",
     "dotenv": "^17.2.3",
@@ -25,12 +27,13 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
+    "@types/node": "^20.19.27",
     "@types/pg": "^8.16.0",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.0.8",
+    "prisma": "^7.2.0",
     "typescript": "^5"
   }
 }
