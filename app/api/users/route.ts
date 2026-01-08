@@ -12,16 +12,26 @@ export async function GET() {
     return NextResponse.json(data, { status: 200 })
 }
 
+
 export async function POST(req: Request) {
     try {
 
-        const { username, password } = await req.json()
-        const user = await prisma.user.create({
-            data: {
-                username: username,
-                password: password,
-            },
-        })
+        const { username, password, tasks } = await req.json()
+         const user = await prisma.user.create({
+      data: {
+        username,
+        password,
+        tasks: {
+          create: tasks?.map((task: any) => ({
+            taskTitle: task.taskTitle,
+            taskDescription: task.taskDescription,
+          })),
+        },
+      },
+      include: {
+        tasks: true,
+      },
+    });
         return NextResponse.json(user, { status: 201 })
     } catch (err) {
         return NextResponse.json({ error: err }, {
@@ -31,19 +41,3 @@ export async function POST(req: Request) {
 
 }
 
-export async function DELETE(req: Request, { params }: { params: { userId: string } }) {
-    const userId = Number(params.userId)
-    return NextResponse.json({message: "ok"})
-    // try {
-    //     await prisma.user.delete({
-    //         where: {
-    //             userId,
-    //         }
-    //     })
-    //     return NextResponse.json({message: "user deleted successfully"})
-    // }
-    // catch(err) {
-    //     return NextResponse.json({error: err})
-    // }
-
-}

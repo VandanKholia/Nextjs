@@ -2,7 +2,8 @@
 import React, {useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import Link from 'next/link'
-import { prisma } from '@/lib/prisma';
+import { useRouter } from 'next/navigation';
+
 
 type User = {
   userId: number;
@@ -10,6 +11,7 @@ type User = {
   password: string
 }
 function Users() {
+  const router = useRouter();
   const [user, setUser] = useState<User[]>([]);
   
   useEffect(() => {
@@ -21,7 +23,9 @@ function Users() {
     await fetch(`/api/users/${userId} `, {
       method: 'DELETE',
     });
+    setUser(prev => prev.filter(u => u.userId !== userId));
   }
+  
 
   return (
     <div className="container mt-4">
@@ -36,17 +40,28 @@ function Users() {
               <div className="card-body">
                 <h5 className="card-title">{user.username}</h5>
 
-                <h6 className="card-subtitle mb-2 text-muted">
-                  {user.password}
-                </h6>
-
                 <p className="card-text">User ID: {user.userId}</p>
 
                 <button
                   className="btn btn-danger"
                   onClick={() => deleteUser(user.userId)}
+                  
                 >
                   Delete
+                </button>
+
+                <button
+                  className="btn btn-secondary"
+                  onClick={() => router.push(`/user/${user.userId}`)}
+                >
+                  Details
+                </button>
+
+                <button
+                  className="btn btn-info"
+                  onClick={() => router.push(`/user/${user.userId}/edit`)}
+                >
+                  Edit
                 </button>
 
               </div>
